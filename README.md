@@ -1,0 +1,2 @@
+# stoml
+Simple TOML library
