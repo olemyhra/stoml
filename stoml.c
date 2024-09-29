@@ -42,8 +42,10 @@ int stoml_read(struct stoml_data *data[], const int length)
 					value = strtok(NULL, key_delimiter);
 					if (value != NULL) 
 						strcpy(data[data_index]->str_value, value);
-					data_index++;
-				}		
+
+					if(++data_index >= length)
+						break;
+				}
 			}
 			return STOML_SUCCESS;
 		} else {
