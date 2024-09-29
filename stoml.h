@@ -31,12 +31,6 @@ int stoml_open(const char *file_name);
 
 
 /*
-	return type - int: number of keys found
-*/
-int stoml_count_keys();
-
-
-/*
 	stream - file pointer to opened TOML file
 	stoml_data - pointer to an array of stoml_data, size >= number of keys
 	return type - int: number of keys in stoml_data array

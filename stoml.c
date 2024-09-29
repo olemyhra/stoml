@@ -13,36 +13,6 @@ int stoml_open(const char *file_name)
 } 
 
 
-int stoml_count_keys()
-{
-	ssize_t bytes_read = 0;
-	size_t line_length = MAX_STR_VAL_LENGTH;
-	char *line = NULL;
-	const char *key_identifier = " = ";
-	char *key_identifier_location = NULL;
-	int number_of_keys_found = 0;
-	
-	rewind(stoml_file);
-	line =	(char *) malloc(sizeof(char ) * MAX_STR_VAL_LENGTH);
-	if(line != NULL) {
-		if(stoml_file != NULL) {
-			while((bytes_read = getline(&line, &line_length, stoml_file)) != -1) {
-				if (line[0] == 0xA || line[0] == 0x23)	/* \n or # */
-					continue;
-				key_identifier_location = strstr(line, key_identifier);
-				if(key_identifier_location != NULL)
-					number_of_keys_found++;	
-			}
-			return number_of_keys_found;
-		} else {
-			return STOML_FAILURE;
-		}
-	} else {
-		return STOML_FAILURE;
-	}
-}
-
-
 int stoml_read(struct stoml_data *data[], const int length)
 {
 	ssize_t bytes_read = 0;
