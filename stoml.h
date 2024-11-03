@@ -27,7 +27,7 @@ struct stoml_data {
 	file_name - name of the TOML file
 	return type - int: 0 on success
 */
-int stoml_open(const char *file_name);
+int stoml_open_file(const char *file_name);
 
 
 /*
