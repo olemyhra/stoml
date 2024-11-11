@@ -16,12 +16,12 @@
 #define STOML_FAILURE -1
 
 
-struct stoml_data {
+typedef struct {
 	char key[MAX_KEY_LENGTH];
 	int value_type;
 	char str_value[MAX_STR_VAL_LENGTH];
 	int int_value;
-};
+} stoml_data;
 
 /*
 	file_name - name of the TOML file
@@ -35,7 +35,7 @@ int stoml_open_file(const char *file_name);
 	stoml_data - pointer to an array of stoml_data, size >= number of keys
 	return type - int: number of keys in stoml_data array
 */
-int stoml_read(struct stoml_data *data[], const int length);
+int stoml_read(stoml_data *data[], const int length, FILE *stream);
 
 
 /*
