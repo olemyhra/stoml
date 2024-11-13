@@ -17,12 +17,39 @@ int stoml_open_file(const char *file_name)
 
 int stoml_read(stoml_data *data[], const int length, FILE *stream)
 {
+
+	bool comment_line = false;
+	bool key_line = false;
+	
 	char c = '\0';
 	c = getc(stream);
 	
 	while (c != EOF)
 	{
-		printf("%c", c);
+		printf("Read charcter: %c (0x%X)\n", c, c);
+		switch(c) {
+			
+			case '#':
+				comment_line = true;
+				break;
+			case '\n':
+				comment_line = false;
+				key_line = false;
+				break;			
+				
+			default:
+				key_line = true;
+				break;	
+		}
+		
+		if (comment_line) {
+			printf("Comment line detected!\n");
+		}
+
+		if (key_line) {
+			printf("Key line detected!\n");
+		}
+
 		c = getc(stream);
 	}
 
