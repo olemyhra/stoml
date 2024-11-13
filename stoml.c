@@ -22,19 +22,23 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream)
 	bool key_line = false;
 	
 	char c = '\0';
+
+	int return_value = 0;
+
 	c = getc(stream);
 	
 	while (c != EOF)
 	{
-		printf("Read charcter: %c (0x%X)\n", c, c);
 		switch(c) {
 			
 			case '#':
 				comment_line = true;
+				printf("CL\n");
 				break;
 			case '\n':
 				comment_line = false;
 				key_line = false;
+				printf("NL");
 				break;			
 				
 			default:
@@ -42,14 +46,14 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream)
 				break;	
 		}
 		
-		if (comment_line) {
-			printf("Comment line detected!\n");
-		}
+			
+		if (comment_line)
+			return_value = 0;
 
-		if (key_line) {
-			printf("Key line detected!\n");
-		}
+		if (key_line)
+			return_value = 0;
 
+		printf("%c (0x%X)\n", c, c);
 		c = getc(stream);
 	}
 
@@ -64,6 +68,8 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream)
 	memset(hash_table, 0, sizeof(stoml_data *) * 10);
 	insert_tag_hashtable(hash_table, 10, &new_data);
 	
+	if (return_value > 0)
+		printf("Hurra!\n");
 
 	return 0;
 }
