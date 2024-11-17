@@ -20,7 +20,11 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream)
 
 	bool comment_line = false;
 	bool key_line = false;
+	bool key_value_split = false;
+	short key_index = 0;
 	
+	stoml_data *tmp_data = (stoml_data *)  malloc(sizeof(stoml_data));
+
 	char c = '\0';
 
 	int return_value = 0;
@@ -33,13 +37,19 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream)
 			
 			case '#':
 				comment_line = true;
-				printf("CL\n");
+				printf("CL:");
 				break;
 			case '\n':
 				comment_line = false;
 				key_line = false;
-				printf("NL");
-				break;			
+				key_value_split = false;
+				key_index = 0;
+				memset(tmp_data, 0,sizeof(stoml_data));
+				printf("\n");
+				break;
+			case '=':
+				key_value_split = true;
+				break;
 				
 			default:
 				key_line = true;
@@ -50,13 +60,22 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream)
 		if (comment_line)
 			return_value = 0;
 
-		if (key_line)
-			return_value = 0;
+		if (key_line) {
+			tmp_data->key[key_index++] = c;
 
-		printf("%c (0x%X)\n", c, c);
+			if (key_value_split) {
+				printf("Found key/value split!\n");
+				tmp_data->key[key_index] = '\0';
+				printf("Key: %s\n", tmp_data->key);
+				key_value_split = false;
+			}
+		}
+
+		printf("%c", c);
 		c = getc(stream);
 	}
-
+	
+	free(tmp_data);
 	stoml_data new_data;
 
 	strcpy (new_data.key,  "servername");
