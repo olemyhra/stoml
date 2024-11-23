@@ -13,6 +13,7 @@
 
 #define MAX_KEY_LENGTH 50
 #define MAX_STR_VAL_LENGTH 50
+#define MAX_KEYLINE_LENGTH 100
 #define STOML_SUCCESS 0
 #define STOML_FAILURE -1
 
@@ -24,11 +25,6 @@ typedef struct {
 	int int_value;
 } stoml_data;
 
-/*
-	file_name - name of the TOML file
-	return type - int: 0 on success
-*/
-int stoml_open_file(const char *file_name);
 
 
 /*
@@ -38,12 +34,6 @@ int stoml_open_file(const char *file_name);
 */
 int stoml_read(stoml_data *data[], const int length, FILE *stream);
 
-
-/*
-	stream - file pointer to opened TOML file
-	return type - int: 0 on sucess
-*/
-int stoml_close();
 
 
 #endif
