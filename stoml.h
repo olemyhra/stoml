@@ -12,7 +12,6 @@
 #include <stdbool.h>
 
 #define MAX_KEY_LENGTH 50
-#define MAX_STR_VAL_LENGTH 50
 #define MAX_KEYLINE_LENGTH 100
 #define STOML_SUCCESS 0
 #define STOML_FAILURE -1
@@ -20,9 +19,7 @@
 
 typedef struct {
 	char key[MAX_KEY_LENGTH];
-	int value_type;
-	char str_value[MAX_STR_VAL_LENGTH];
-	int int_value;
+	char value[MAX_KEY_LENGTH];
 } stoml_data;
 
 

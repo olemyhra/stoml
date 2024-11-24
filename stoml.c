@@ -1,6 +1,7 @@
 #include "stoml.h"
 
 #define TRIM_MAX_LENGTH 100
+#define NULL_TERM_CHAR 1
 
 static void create_node(char *line, stoml_data **node);
 static int create_hash_code(const char *key);
@@ -31,7 +32,9 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream) {
 			if (key_line) {
 				key_line_data[key_line_data_index] = '\0';
 				create_node(key_line_data, &node);
-				if (node != NULL)
+				printf("Key: %s, value: %s\n", node->key, node->value);
+
+				if (node == NULL)
 					insert_hashtable(data, length, node);
 			}
 
@@ -66,9 +69,13 @@ static void create_node(char *line, stoml_data **node) {
 	value = strtok(NULL, "=");
 	trim(key);
 	trim(value);
-	printf("Key: %s, value: %s\n", key, value);
 	
-
+	*node = (stoml_data *)  malloc(sizeof(stoml_data));
+	if (*node != NULL) {
+		strncpy((*node)->key, key, MAX_KEY_LENGTH - NULL_TERM_CHAR);
+		strncpy((*node)->value, value, MAX_KEY_LENGTH - NULL_TERM_CHAR);
+	}
+	
 }
 
 
