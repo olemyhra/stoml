@@ -8,6 +8,10 @@ static int create_hash_code(const char *key, const int length);
 static void insert_hashtable(stoml_data *data[], const int length, stoml_data *data_item);
 static void trim(char *string);
 
+
+/*
+	Public function
+*/
 int stoml_read(stoml_data *data[], const int length, FILE *stream) {
 
 	char c = '\0';
@@ -60,6 +64,9 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream) {
 }
 
 
+/*
+	Public function
+*/
 stoml_data *search(stoml_data *data[], const int length, const char *key) {
 
 	int hashtable_index = create_hash_code(key, length);
@@ -75,6 +82,16 @@ stoml_data *search(stoml_data *data[], const int length, const char *key) {
 }
 
 
+/*
+	Private function
+
+	-- Creates a stoml_data node with the supplied key and value --
+
+	line - keyline read from the TOML data
+	node - pointer to node where the data should be stored
+	return value: none
+
+*/
 static void create_node(char *line, stoml_data **node) {
 	char *key = NULL;
 	char *value = NULL;
@@ -95,7 +112,12 @@ static void create_node(char *line, stoml_data **node) {
 
 
 /*
-	key - stoml_data item to be used to create the hash key
+	Private function
+
+	-- Generates a hash code value based upon the key --
+
+	key - key to be used to generate hash index value
+	length - length of the hash table
 */
 static int create_hash_code(const char *key, const int length) {
 	int index = 0;
@@ -111,6 +133,10 @@ static int create_hash_code(const char *key, const int length) {
 
 
 /*
+	Private function
+
+	-- Inserts a stoml_data node pointer into the hash table --
+
 	data - pointer to hashtable
 	length - length of hashtable
 	data_item - pointer to item of stoml_data
@@ -129,6 +155,13 @@ static void insert_hashtable(stoml_data *data[], const int length,  stoml_data *
 }
 
 
+/*
+	Private function
+
+	-- Removes space and quotation marks from the string --
+
+	string - null terminated string
+*/
 static void trim(char *string) {
 	short i = 0, z = 0;
 	char tmp_string[TRIM_MAX_LENGTH];
