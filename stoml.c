@@ -4,7 +4,7 @@
 #define NULL_TERM_CHAR 1
 
 static void create_node(char *line, stoml_data **node);
-static int create_hash_code(const char *key);
+static int create_hash_code(const char *key, const int length);
 static void insert_hashtable(stoml_data *data[], const int length, stoml_data *data_item);
 static void trim(char *string);
 
@@ -32,9 +32,8 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream) {
 			if (key_line) {
 				key_line_data[key_line_data_index] = '\0';
 				create_node(key_line_data, &node);
-				printf("Key: %s, value: %s\n", node->key, node->value);
 
-				if (node == NULL)
+				if (node != NULL)
 					insert_hashtable(data, length, node);
 			}
 
@@ -61,6 +60,21 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream) {
 }
 
 
+stoml_data *search(stoml_data *data[], const int length, const char *key) {
+
+	int hashtable_index = create_hash_code(key, length);
+	
+	while (data[hashtable_index] != NULL) {
+		if (strncmp(key, &(*(data[hashtable_index])->key), MAX_KEY_LENGTH) == 0) 
+			return data[hashtable_index];
+		hashtable_index++;
+		hashtable_index %= length;
+	}
+		
+	return NULL;
+}
+
+
 static void create_node(char *line, stoml_data **node) {
 	char *key = NULL;
 	char *value = NULL;
@@ -83,7 +97,7 @@ static void create_node(char *line, stoml_data **node) {
 /*
 	key - stoml_data item to be used to create the hash key
 */
-static int create_hash_code(const char *key) {
+static int create_hash_code(const char *key, const int length) {
 	int index = 0;
 
 	for (int i=0;i<MAX_KEY_LENGTH;i++) {
@@ -92,7 +106,7 @@ static int create_hash_code(const char *key) {
 		index += key[i];
 	}
 
-	return index % MAX_KEY_LENGTH;
+	return index % length;
 }
 
 
@@ -102,9 +116,10 @@ static int create_hash_code(const char *key) {
 	data_item - pointer to item of stoml_data
 */
 static void insert_hashtable(stoml_data *data[], const int length,  stoml_data *data_item) {
-	int hashtable_index = create_hash_code(data_item->key);
+
+	int hashtable_index = create_hash_code(data_item->key, length);
 	
-	while (data[hashtable_index] != NULL && *(data[hashtable_index]->key) != '\0') {
+	while (data[hashtable_index] != NULL && *(data[hashtable_index])->key != '\0') {
 		hashtable_index++;
 
 		hashtable_index %= length;

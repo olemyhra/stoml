@@ -1,6 +1,6 @@
 /* #Public API for the Simple TOML library */
 
-#ifndef STOLML_H
+#ifndef STOML_H
 #define STOML_H
 
 #define _GNU_SOURCE
@@ -25,12 +25,21 @@ typedef struct {
 
 
 /*
-	stream - file pointer to opened TOML file
-	stoml_data - pointer to an array of stoml_data, size >= number of keys
-	return type - int: number of keys in stoml_data array
+	stream - pointer to input TOML data, file or stdin
+	data - array of stoml_data pointers
+	length - length of data
+	return type - int: 0->success
 */
 int stoml_read(stoml_data *data[], const int length, FILE *stream);
 
+
+/*
+	data - array of stoml_data pointers
+	length - length of data
+	key - null terminated string to search for as key
+	return type - stoml_data *: stoml_data node or NULL-> key not found
+*/
+stoml_data *search(stoml_data *data[], const int length, const char *key);
 
 
 #endif
