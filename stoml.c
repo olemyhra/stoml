@@ -37,8 +37,11 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream) {
 				key_line_data[key_line_data_index] = '\0';
 				create_node(key_line_data, &node);
 
-				if (node != NULL)
+				if (node != NULL) {
 					insert_hashtable(data, length, node);
+				} else {
+					return STOML_FAILURE;
+				}
 			}
 
 			comment_line = false;
