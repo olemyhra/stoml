@@ -70,7 +70,7 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream) {
 /*
 	Public function
 */
-stoml_data *search(stoml_data *data[], const int length, const char *key) {
+stoml_data *stoml_search(stoml_data *data[], const int length, const char *key) {
 
 	int hashtable_index = create_hash_code(key, length);
 	

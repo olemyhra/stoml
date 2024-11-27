@@ -1,0 +1,4 @@
+#this is a proper toml file
+
+server_name = "norway"
+network_name = oslo

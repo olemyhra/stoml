@@ -3,7 +3,6 @@
 #ifndef STOML_H
 #define STOML_H
 
-#define _GNU_SOURCE
 
 #include <stdio.h>
 #include <sys/types.h>
@@ -39,7 +38,7 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream);
 	key - null terminated string to search for as key
 	return type - stoml_data *: stoml_data node or NULL-> key not found
 */
-stoml_data *search(stoml_data *data[], const int length, const char *key);
+stoml_data *stoml_search(stoml_data *data[], const int length, const char *key);
 
 
 #endif
