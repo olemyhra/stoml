@@ -13,57 +13,58 @@ static void trim(char *string);
 	Public function
 */
 int stoml_read(stoml_data *data[], const int length, FILE *stream) {
+	if (data != NULL && length > 0) {
+		char c = '\0';
 
-	char c = '\0';
-
-	bool key_line = false;
-	bool comment_line = false;
+		bool key_line = false;
+		bool comment_line = false;
 	
-	char key_line_data[100];
-	memset(key_line_data, 0, sizeof(key_line_data));
-	short key_line_data_index = 0;
+		char key_line_data[100];
+		memset(key_line_data, 0, sizeof(key_line_data));
+		short key_line_data_index = 0;
 
-	stoml_data *node = NULL;
-
-	c = getc(stream);
-	
-	while (c != EOF) {
-
-		if (c == '#') {
-			comment_line = true;
-
-		} else if (c == '\n') {
-			if (key_line) {
-				key_line_data[key_line_data_index] = '\0';
-				create_node(key_line_data, &node);
-
-				if (node != NULL) {
-					insert_hashtable(data, length, node);
-				} else {
-					return STOML_FAILURE;
-				}
-			}
-
-			comment_line = false;
-			key_line = false;
-
-			memset(key_line_data, 0, sizeof(key_line_data));
-			key_line_data_index = 0;
-
-		} else if (!comment_line) {
-			key_line = true;
-		}
-		
-		if (key_line) {
-			key_line_data[key_line_data_index] = c;
-			if (key_line_data_index < MAX_KEYLINE_LENGTH)
-				key_line_data_index++;
-		} 
+		stoml_data *node = NULL;
 
 		c = getc(stream);
-	}
+	
+		while (c != EOF) {
+			if (c == '#') {
+				comment_line = true;
 
-	return STOML_SUCCESS;
+			} else if (c == '\n') {
+				if (key_line) {
+					key_line_data[key_line_data_index] = '\0';
+					create_node(key_line_data, &node);
+
+					if (node != NULL) {
+						insert_hashtable(data, length, node);
+					} else {
+						return STOML_FAILURE;
+					}
+				}
+	
+				comment_line = false;
+				key_line = false;
+	
+				memset(key_line_data, 0, sizeof(key_line_data));
+				key_line_data_index = 0;
+
+			} else if (!comment_line) {
+				key_line = true;
+			}
+		
+			if (key_line) {
+				key_line_data[key_line_data_index] = c;
+				if (key_line_data_index < MAX_KEYLINE_LENGTH)
+					key_line_data_index++;
+			} 
+
+			c = getc(stream);
+		}
+		return STOML_SUCCESS;
+	} else {
+		return STOML_FAILURE;
+	}	
 }
 
 

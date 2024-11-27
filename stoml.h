@@ -13,7 +13,7 @@
 #define MAX_KEY_LENGTH 50
 #define MAX_KEYLINE_LENGTH 100
 #define STOML_SUCCESS 0
-#define STOML_FAILURE -1
+#define STOML_FAILURE 1
 
 
 typedef struct {
