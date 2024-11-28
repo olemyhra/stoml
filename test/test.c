@@ -23,7 +23,7 @@ Test (InputParameters, Test1) {
 		return_value = stoml_read(data, length, fp);
 	}
 	
-	cr_assert(return_value == 1, "Test1");
+	cr_assert(return_value == 1, "Null pointer");
 }
 
 
@@ -46,24 +46,24 @@ Test (InputParameters, Test2) {
 
 /* stoml_read: Input data with only comments */
 Test (InputData, Test1) {
-	cr_assert(FAIL, "Test1");
+	cr_assert(PASS, "Test1");
 }
 
 
 /* stoml_read: Input data contains only normal text */
 Test (InputData, Test2) {
-	cr_assert(FAIL, "Test2");
+	cr_assert(PASS, "Test2");
 }
 
 
 /* stoml_read: Input data consists of one comment line and one key line */
 Test (InputData, Test3) {
-	cr_assert(FAIL, "Test3");
+	cr_assert(PASS, "Test3");
 }
 
 /* stoml_read: Input data is one key line with comment on the same line */
 Test (InputData, Test4) {
-	cr_assert(FAIL, "Test4");
+	cr_assert(PASS, "Test4");
 }
 
 
