@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <criterion/criterion.h>
 #include "../stoml.h"
+#include <strings.h>
 
 #define FAIL 0
 #define PASS 1
@@ -8,6 +9,41 @@
 /* Criterion framework reports */
 Test (FrameWorkVerify, Test1) {
 	cr_assert(PASS, "Test1");
+}
+
+
+/* Read a normal configuration file and check if the data is in the table */
+Test (NormalRead, Test1) {
+
+	int length = 10;
+	stoml_data *data[length];
+	int return_value = 0;
+	FILE *fp = NULL;
+	stoml_data *node = NULL;
+
+	memset(data, 0, sizeof(stoml_data *) * length);	
+
+	fp = fopen("testD.toml", "r");
+
+	if (fp != NULL) {
+		return_value = stoml_read(data, length, fp);
+	} else {
+		return_value++;
+	}
+
+	if (return_value == 0) {
+		node = stoml_search(data, length, "network_name");
+	} else {
+		return_value++;
+	}
+	
+	if (node != NULL) {
+		return_value = strcmp(node->value, "oslo");
+	} else {
+		return_value++;
+	}
+
+	cr_assert(return_value  == 0, "Return value not null!");
 }
 
 
@@ -37,6 +73,7 @@ Test (InputParameters, Test2) {
 
 	if (fp != NULL) {
 		return_value = stoml_read(data, 0, fp);
+
 	}
 	
 	cr_assert(return_value == 1, "Test2");
