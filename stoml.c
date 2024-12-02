@@ -28,6 +28,7 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream) {
 	char key_line_data[100];
 	memset(key_line_data, 0, sizeof(key_line_data));
 	short key_line_data_index = 0;
+	int line_counter = 0;
 
 	stoml_data *node = NULL;
 
@@ -47,6 +48,7 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream) {
 
 				if (node != NULL) {
 					insert_hashtable(data, length, node);
+					line_counter++;
 				} else {
 					return STOML_FAILURE;
 				}
@@ -70,6 +72,11 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream) {
 
 		c = getc(stream);
 	}
+
+	if (line_counter == 0)
+		return STOML_FAILURE;
+
+
 	return STOML_SUCCESS;
 }
 

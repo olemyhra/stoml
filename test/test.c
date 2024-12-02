@@ -83,13 +83,47 @@ Test (InputParameters, Test2) {
 
 /* stoml_read: Input data with only comments */
 Test (InputData, Test1) {
-	cr_assert(PASS, "Test1");
+
+	int length = 10;
+	stoml_data *data[length];
+	int return_value = 0;
+	FILE *fp = NULL;
+	stoml_data *node = NULL;
+
+	memset(data, 0, sizeof(stoml_data *) * length);	
+
+	fp = fopen("testB.toml", "r");
+
+	if (fp != NULL) {
+		return_value = stoml_read(data, length, fp);
+	} else {
+		return_value += 10;
+	}
+
+	cr_assert(return_value > 0 && return_value < 10, "Only comments");
 }
 
 
 /* stoml_read: Input data contains only normal text */
 Test (InputData, Test2) {
-	cr_assert(PASS, "Test2");
+
+	int length = 10;
+	stoml_data *data[length];
+	int return_value = 0;
+	FILE *fp = NULL;
+	stoml_data *node = NULL;
+
+	memset(data, 0, sizeof(stoml_data *) * length);	
+
+	fp = fopen("testC.toml", "r");
+
+	if (fp != NULL) {
+		return_value = stoml_read(data, length, fp);
+	} else {
+		return_value += 10;
+	}
+
+	cr_assert(return_value > 0 && return_value < 10, "Only text");
 }
 
 
