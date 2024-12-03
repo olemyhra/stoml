@@ -115,6 +115,10 @@ static void create_node(char *line, stoml_data **node) {
 
 	key = strtok(line, "=");
 	value = strtok(NULL, "=");
+
+	if (value == NULL) /* Separator not found */
+		return; 
+
 	trim(key);
 	trim(value);
 	
