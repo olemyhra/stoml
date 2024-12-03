@@ -127,14 +127,38 @@ Test (InputData, Test2) {
 }
 
 
-/* stoml_read: Input data consists of one comment line and one key line */
-Test (InputData, Test3) {
-	cr_assert(PASS, "Test3");
-}
-
 /* stoml_read: Input data is one key line with comment on the same line */
 Test (InputData, Test4) {
-	cr_assert(PASS, "Test4");
+	
+	int length = 10;
+	stoml_data *data[length];
+	int return_value = 0;
+	FILE *fp = NULL;
+	stoml_data *node = NULL;
+
+	memset(data, 0, sizeof(stoml_data *) * length);	
+
+	fp = fopen("testE.toml", "r");
+
+	if (fp != NULL) {
+		return_value = stoml_read(data, length, fp);
+	} else {
+		return_value++;
+	}
+
+	if (return_value == 0) {
+		node = stoml_search(data, length, "server_name");
+	} else {
+		return_value++;
+	}
+	
+	if (node != NULL) {
+		return_value = strcmp(node->value, "localhost");
+	} else {
+		return_value++;
+	}
+
+	cr_assert(return_value  == 0, "Key and comment on the same line");
 }
 
 
