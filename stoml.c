@@ -37,7 +37,7 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream) {
 	if (c == EOF)
 		return STOML_FAILURE;
 
-	while (c != EOF) {
+	while (c != EOF && line_counter < length) {
 		if (c == '#') {
 			comment = true;
 
@@ -73,6 +73,7 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream) {
 		} 
 
 		c = getc(stream);
+
 	}
 
 	if (line_counter == 0)
@@ -89,12 +90,16 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream) {
 stoml_data *stoml_search(stoml_data *data[], const int length, const char *key) {
 
 	int hashtable_index = create_hash_code(key, length);
+	int search_counter = 0;
 	
 	while (data[hashtable_index] != NULL) {
 		if (strncmp(key, &(*(data[hashtable_index])->key), MAX_KEY_LENGTH) == 0) 
 			return data[hashtable_index];
 		hashtable_index++;
 		hashtable_index %= length;
+
+		if (++search_counter >= length)
+			break;
 	}
 		
 	return NULL;

@@ -44,6 +44,7 @@ Test (NormalRead, Test1) {
 	}
 
 	cr_assert(return_value  == 0, "Return value not null!");
+
 }
 
 
@@ -180,7 +181,7 @@ Test (InputData, Test5) {
 	} else {
 		return_value++;
 	}
-/*
+
 	if (return_value == 0) {
 		node = stoml_search(data, length, "key8341");
 	} else {
@@ -192,8 +193,46 @@ Test (InputData, Test5) {
 	} else {
 		return_value++;
 	}
-*/
+
+	for (int i=0;i<length;i++)
+		free(data[i]);
+
 	cr_assert(return_value  == 0, "Large data input");
 }
 
+
+/* stoml_read: Data larger than length of stoml_data array */
+/* data array is 5000 while we are trying to find key 8341 */
+Test (InputData, Test6) {
+
+	int length = 5000;
+	stoml_data *data[length];
+	int return_value = 0;
+	FILE *fp = NULL;
+	stoml_data *node = NULL;
+
+	memset(data, 0, sizeof(stoml_data *) * length);	
+
+	fp = fopen("testF.toml", "r");
+
+	if (fp != NULL) {
+		return_value = stoml_read(data, length, fp);
+	} else {
+		return_value++;
+	}
+
+	if (return_value == 0) {
+		node = stoml_search(data, length, "key8341");
+	} else {
+		return_value++;
+	}
+	
+	if (node != NULL) {
+		return_value = strcmp(node->value, "value8341");
+	} else {
+		return_value++;
+	}
+
+	cr_assert(return_value  == 1, "Data larger than array");
+}
 
