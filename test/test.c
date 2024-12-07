@@ -162,6 +162,38 @@ Test (InputData, Test4) {
 }
 
 
+/* stoml_read: Read a large amount of data */
+Test (InputData, Test5) {
 
+	int length = 11000;
+	stoml_data *data[length];
+	int return_value = 0;
+	FILE *fp = NULL;
+	stoml_data *node = NULL;
+
+	memset(data, 0, sizeof(stoml_data *) * length);	
+
+	fp = fopen("testF.toml", "r");
+
+	if (fp != NULL) {
+		return_value = stoml_read(data, length, fp);
+	} else {
+		return_value++;
+	}
+/*
+	if (return_value == 0) {
+		node = stoml_search(data, length, "key8341");
+	} else {
+		return_value++;
+	}
+	
+	if (node != NULL) {
+		return_value = strcmp(node->value, "value8341");
+	} else {
+		return_value++;
+	}
+*/
+	cr_assert(return_value  == 0, "Large data input");
+}
 
 

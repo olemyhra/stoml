@@ -23,7 +23,7 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream) {
 	char c = '\0';
 
 	bool key_line = false;
-	bool comment_line = false;
+	bool comment = false;
 
 	char key_line_data[100];
 	memset(key_line_data, 0, sizeof(key_line_data));
@@ -39,7 +39,7 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream) {
 
 	while (c != EOF) {
 		if (c == '#') {
-			comment_line = true;
+			comment = true;
 
 		} else if (c == '\n') {
 			if (key_line) {
@@ -54,20 +54,22 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream) {
 				}
 			}
 
-			comment_line = false;
+			comment = false;
 			key_line = false;
 
 			memset(key_line_data, 0, sizeof(key_line_data));
 			key_line_data_index = 0;
 
-		} else if (!comment_line) {
+		} else if (!comment) {
 			key_line = true;
 		}
 	
 		if (key_line) {
-			key_line_data[key_line_data_index] = c;
-			if (key_line_data_index < MAX_KEYLINE_LENGTH)
-				key_line_data_index++;
+			if (!comment) {
+					key_line_data[key_line_data_index] = c;
+				if (key_line_data_index < MAX_KEYLINE_LENGTH)
+					key_line_data_index++;
+			}
 		} 
 
 		c = getc(stream);
