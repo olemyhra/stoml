@@ -3,6 +3,12 @@
 #define TRIM_MAX_LENGTH 100
 #define NULL_TERM_CHAR 1
 
+typedef struct toml_data {
+	char key[MAX_KEY_LENGTH];
+	char value[MAX_KEY_LENGTH];
+} stoml_data;
+
+
 static void create_node(char *line, stoml_data **node);
 static int create_hash_code(const char *key, const int length);
 static void insert_hashtable(stoml_data *data[], const int length, stoml_data *data_item);
@@ -107,6 +113,22 @@ stoml_data *stoml_search(stoml_data *data[], const int length, const char *key) 
 
 
 /*
+	Public function
+*/
+char *get_key(stoml_data *node) {
+	return node->key;
+}
+
+
+/*
+	Public function
+*/
+char *get_value(stoml_data *node) {
+	return node->value;
+}
+
+
+/*
 	Private function
 
 	-- Creates a stoml_data node with the supplied key and value --
@@ -207,3 +229,4 @@ static void trim(char *string) {
 	strcpy(string, tmp_string);
 
 }
+

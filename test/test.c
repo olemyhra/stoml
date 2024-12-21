@@ -38,7 +38,7 @@ Test (NormalRead, Test1) {
 	}
 	
 	if (node != NULL) {
-		return_value = strcmp(node->value, "oslo");
+		return_value = strcmp(get_value(node), "oslo");
 	} else {
 		return_value++;
 	}
@@ -154,7 +154,7 @@ Test (InputData, Test4) {
 	}
 	
 	if (node != NULL) {
-		return_value = strcmp(node->value, "localhost");
+		return_value = strcmp(get_value(node), "localhost");
 	} else {
 		return_value++;
 	}
@@ -189,7 +189,7 @@ Test (InputData, Test5) {
 	}
 	
 	if (node != NULL) {
-		return_value = strcmp(node->value, "value8341");
+		return_value = strcmp(get_value(node), "value8341");
 	} else {
 		return_value++;
 	}
@@ -228,7 +228,7 @@ Test (InputData, Test6) {
 	}
 	
 	if (node != NULL) {
-		return_value = strcmp(node->value, "value8341");
+		return_value = strcmp(get_value(node), "value8341");
 	} else {
 		return_value++;
 	}

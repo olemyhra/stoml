@@ -16,10 +16,7 @@
 #define STOML_FAILURE 1
 
 
-typedef struct {
-	char key[MAX_KEY_LENGTH];
-	char value[MAX_KEY_LENGTH];
-} stoml_data;
+typedef struct toml_data stoml_data;
 
 
 
@@ -40,5 +37,18 @@ int stoml_read(stoml_data *data[], const int length, FILE *stream);
 */
 stoml_data *stoml_search(stoml_data *data[], const int length, const char *key);
 
+
+/*
+	node - pointer to stoml_data structure
+	return type - pointer null terminated string
+*/
+char *get_key(stoml_data *node);
+
+
+/*
+	node - pointer to stoml_data structure
+	return type - pointer to null terminated string
+*/
+char *get_value(stoml_data *node);
 
 #endif

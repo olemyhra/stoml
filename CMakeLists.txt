@@ -11,6 +11,6 @@ set(CMAKE_C_STANDARD 99)
 set(CMAKE_C_STANDARD_REQUIRED true)
 
 set_target_properties(stoml PROPERTIES VERSION 1.1.0 SOVERSION 1)
-target_compile_options(stoml PRIVATE -Wall -Werror -O2 -g3 -fpic -shared -std=c99 -pedantic) 
+target_compile_options(stoml PRIVATE -Wall -Werror -O2 -g3 -fpic -shared -std=c17 -pedantic) 
 
 add_subdirectory(test)
