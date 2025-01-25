@@ -58,7 +58,7 @@ int main(void) {
     if (key == NULL)
       exit(1) /* The key we searched for did not exist in the keys data structure */
 
-    printf("Key: %s, value: %s\n", key->key, key->value);
+    printf("Key: %s, value: %s\n", get_key(key), get_value(key));
 
     return 0;
 }
